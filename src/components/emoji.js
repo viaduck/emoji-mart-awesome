@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { getData, getSanitizedData, unifiedToNative } from '../../utils'
-import { uncompress } from '../../utils/data'
-import { EmojiPropTypes, EmojiDefaultProps } from '../../utils/shared-props'
+import { getData, getSanitizedData, unifiedToNative } from '../utils'
+import { uncompress } from '../utils/data'
+import { EmojiPropTypes, EmojiDefaultProps } from '../utils/shared-props'
 
 const _getData = (props) => {
   var { emoji, skin, set, data } = props
@@ -73,14 +73,14 @@ const _convertStyleToCSS = (style) => {
   return div.getAttribute('style')
 }
 
-const NimbleEmoji = (props) => {
+const Emoji = (props) => {
   if (props.data.compressed) {
     uncompress(props.data)
   }
 
-  for (let k in NimbleEmoji.defaultProps) {
-    if (props[k] == undefined && NimbleEmoji.defaultProps[k] != undefined) {
-      props[k] = NimbleEmoji.defaultProps[k]
+  for (let k in Emoji.defaultProps) {
+    if (props[k] == undefined && Emoji.defaultProps[k] != undefined) {
+      props[k] = Emoji.defaultProps[k]
     }
   }
 
@@ -190,7 +190,7 @@ const NimbleEmoji = (props) => {
   }
 }
 
-NimbleEmoji.propTypes = { ...EmojiPropTypes, data: PropTypes.object.isRequired }
-NimbleEmoji.defaultProps = EmojiDefaultProps
+Emoji.propTypes = { ...EmojiPropTypes, data: PropTypes.object.isRequired }
+Emoji.defaultProps = EmojiDefaultProps
 
-export default NimbleEmoji
+export default Emoji

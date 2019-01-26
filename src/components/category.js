@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import frequently from '../utils/frequently'
 import { getData } from '../utils'
-import NimbleEmoji from './emoji/nimble-emoji'
+import Emoji from './emoji'
 import NotFound from './not-found'
 
 export default class Category extends React.Component {
@@ -193,7 +193,7 @@ export default class Category extends React.Component {
 
         {emojis &&
           emojis.map((emoji) =>
-            NimbleEmoji({ emoji: emoji, data: this.data, ...emojiProps }),
+            Emoji({ emoji: emoji, data: this.data, ...emojiProps }),
           )}
 
         {emojis &&

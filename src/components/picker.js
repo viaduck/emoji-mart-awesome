@@ -1,19 +1,19 @@
-import '../../vendor/raf-polyfill'
+import '../vendor/raf-polyfill'
 
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import * as icons from '../../svgs'
-import store from '../../utils/store'
-import frequently from '../../utils/frequently'
-import { deepMerge, measureScrollbar } from '../../utils'
-import { uncompress } from '../../utils/data'
-import { PickerPropTypes, PickerDefaultProps } from '../../utils/shared-props'
+import * as icons from '../svgs'
+import store from '../utils/store'
+import frequently from '../utils/frequently'
+import { deepMerge, measureScrollbar } from '../utils'
+import { uncompress } from '../utils/data'
+import { PickerPropTypes, PickerDefaultProps } from '../utils/shared-props'
 
-import Anchors from '../anchors'
-import Category from '../category'
-import Preview from '../preview'
-import Search from '../search'
+import Anchors from './anchors'
+import Category from './category'
+import Preview from './preview'
+import Search from './search'
 
 const I18N = {
   search: 'Search',
@@ -34,7 +34,7 @@ const I18N = {
   },
 }
 
-export default class NimblePicker extends React.PureComponent {
+export default class Picker extends React.PureComponent {
   constructor(props) {
     super(props)
 
@@ -592,8 +592,8 @@ export default class NimblePicker extends React.PureComponent {
   }
 }
 
-NimblePicker.propTypes = {
+Picker.propTypes = {
   ...PickerPropTypes,
   data: PropTypes.object.isRequired,
 }
-NimblePicker.defaultProps = { ...PickerDefaultProps }
+Picker.defaultProps = { ...PickerDefaultProps }

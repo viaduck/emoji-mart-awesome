@@ -1,34 +1,28 @@
 {
-  "name": "emoji-mart",
-  "version": "2.9.2",
-  "description": "Customizable Slack-like emoji picker for React",
+  "name": "emoji-mart-awesome",
+  "version": "1.0.0",
+  "description": "Customizable Slack-like emoji picker and renderer for React",
   "main": "dist/index.js",
   "module": "dist-es/index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:missive/emoji-mart.git"
+    "url": "git@github.com:viaduck/emoji-mart-awesome.git"
   },
   "keywords": [
     "react",
     "emoji",
     "picker"
   ],
-  "author": "Etienne Lemay",
+  "author": "Alexandros Roussos",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/missive/emoji-mart/issues"
+    "url": "https://github.com/viaduck/emoji-mart-awesome/issues"
   },
-  "homepage": "https://github.com/missive/emoji-mart",
   "dependencies": {},
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.2.11",
-    "@storybook/addon-knobs": "^3.2.10",
-    "@storybook/addon-links": "^3.2.10",
-    "@storybook/addon-options": "3.2.10",
-    "@storybook/react": "^3.2.11",
     "babel-cli": "^6.26.0",
     "babel-core": "6.7.2",
     "babel-loader": "^7.1.2",
@@ -44,45 +38,24 @@
     "emoji-datasource": "4.0.4",
     "emojilib": "^2.2.1",
     "inflection": "1.10.0",
-    "jasmine-core": "^2.5.2",
-    "karma": "^1.4.0",
-    "karma-chrome-launcher": "^2.0.0",
-    "karma-cli": "^1.0.1",
-    "karma-jasmine": "^1.1.0",
-    "karma-webpack": "^2.0.4",
     "mkdirp": "0.5.1",
-    "prettier": "1.11.1",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "rimraf": "2.5.2",
-    "size-limit": "^0.11.4",
-    "webpack": "^3.6.0"
+    "webpack": "^4.8.3"
   },
+  "files": [
+    "/css",
+    "/data",
+    "/dist",
+    "/dist-es"
+  ],
   "scripts": {
-    "clean": "rm -rf dist/ dist-es/",
+    "clean": "rm -rf dist/ dist-es/ data/",
     "build:data": "node scripts/build-data",
-    "build:dist": "npm run build:cjs && npm run build:es",
     "build:cjs": "BABEL_ENV=cjs babel src --out-dir dist --copy-files",
     "build:es": "babel src --out-dir dist-es --copy-files",
-    "build:docs": "cp css/emoji-mart.css docs && webpack --config ./docs/webpack.config.js",
-    "build": "npm run clean && npm run build:dist",
-    "watch": "BABEL_ENV=cjs babel src --watch --out-dir dist --copy-files",
-    "start": "npm run watch",
-    "stats": "webpack --config ./spec/webpack.config.js --json > spec/stats.json",
-    "react:clean": "rimraf node_modules/{react,react-dom,react-addons-test-utils}",
-    "react:14": "npm run react:clean && npm i react@^0.14 react-dom@^0.14 react-addons-test-utils@^0.14 --save-dev",
-    "react:15": "npm run react:clean && npm i react@^15 react-dom@^15 react-addons-test-utils@^15 --save-dev",
-    "test": "NODE_ENV=test karma start && size-limit",
-    "prepublishOnly": "npm run build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "prettier": "prettier --write \"{src,scripts,spec}/**/*.js\""
-  },
-  "size-limit": [
-    {
-      "path": "dist-es/index.js",
-      "limit": "80 KB"
-    }
-  ]
+    "build": "npm run build:cjs && npm run build:es && npm run build:data",
+    "prepare": "npm run build"
+  }
 }

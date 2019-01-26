@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import NimbleEmoji from './emoji/nimble-emoji'
+import Emoji from './emoji'
 import Skins from './skins'
 
 export default class SkinsEmoji extends Skins {
@@ -30,7 +30,7 @@ export default class SkinsEmoji extends Skins {
             data-skin={skinTone}
             className={`emoji-mart-skin-tone-${skinTone}`}
           >
-            {NimbleEmoji({
+            {Emoji({
               emoji: skinEmoji,
               data: data,
               skin: skinTone,

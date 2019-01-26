@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { search as icons } from '../svgs'
-import NimbleEmojiIndex from '../utils/emoji-index/nimble-emoji-index'
+import { EmojiIndex } from '../utils/emoji-index'
 
 export default class Search extends React.PureComponent {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class Search extends React.PureComponent {
     }
 
     this.data = props.data
-    this.emojiIndex = new NimbleEmojiIndex(this.data)
+    this.emojiIndex = new EmojiIndex(this.data)
     this.setRef = this.setRef.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.clear = this.clear.bind(this)

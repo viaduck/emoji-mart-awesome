@@ -1,8 +1,9 @@
-import { getData, getSanitizedData, intersect } from '..'
-import { uncompress } from '../data'
+import data from '../../data/all.json'
+import { getData, getSanitizedData, intersect } from '.'
+import { uncompress } from './data'
 
-export default class NimbleEmojiIndex {
-  constructor(data) {
+export class EmojiIndex {
+  constructor(data = data) {
     if (data.compressed) {
       uncompress(data)
     }
@@ -194,3 +195,12 @@ export default class NimbleEmojiIndex {
     return results
   }
 }
+
+const emojiIndex = new EmojiIndex(data);
+const { emojis, emoticons } = emojiIndex;
+
+function search() {
+  return emojiIndex.search(...arguments)
+}
+
+export { search, emojis, emoticons, emojiIndex }

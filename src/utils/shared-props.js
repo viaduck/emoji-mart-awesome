@@ -1,3 +1,4 @@
+import data from '../../data/all.json'
 import PropTypes from 'prop-types'
 
 const EmojiPropTypes = {
@@ -35,6 +36,7 @@ const EmojiDefaultProps = {
   native: false,
   forceSize: false,
   tooltip: false,
+  data: data,
   backgroundImageFn: (set, sheetSize) =>
     `https://unpkg.com/emoji-datasource-${set}@${EMOJI_DATASOURCE_VERSION}/img/${set}/sheets-256/${sheetSize}.png`,
   onOver: () => {},
@@ -93,6 +95,7 @@ const PickerDefaultProps = {
   emoji: 'department_store',
   color: '#ae65c5',
   set: EmojiDefaultProps.set,
+  data: EmojiDefaultProps.data,
   skin: null,
   defaultSkin: EmojiDefaultProps.skin,
   native: EmojiDefaultProps.native,
