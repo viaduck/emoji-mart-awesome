@@ -471,7 +471,7 @@ export default class Picker extends React.PureComponent {
         showPreview,
         showSearch,
         showSkinTones,
-        emojiTooltip,
+        showTooltip,
         include,
         exclude,
         recent,
@@ -494,6 +494,7 @@ export default class Picker extends React.PureComponent {
             ref={this.setAnchorsRef}
             data={this.data}
             i18n={this.i18n}
+            tooltip={showTooltip}
             color={color}
             categories={this.categories}
             onAnchorClick={this.handleAnchorClick}
@@ -550,7 +551,7 @@ export default class Picker extends React.PureComponent {
                   sheetColumns: sheetColumns,
                   sheetRows: sheetRows,
                   forceSize: native,
-                  tooltip: emojiTooltip,
+                  tooltip: showTooltip,
                   backgroundImageFn: backgroundImageFn,
                   onOver: this.handleEmojiOver,
                   onLeave: this.handleEmojiLeave,

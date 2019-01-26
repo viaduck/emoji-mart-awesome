@@ -24,7 +24,7 @@ export default class Anchors extends React.PureComponent {
   }
 
   render() {
-    var { categories, color, i18n, icons } = this.props,
+    var { categories, color, i18n, icons, tooltip } = this.props,
       { selected } = this.state
 
     return (
@@ -40,7 +40,7 @@ export default class Anchors extends React.PureComponent {
           return (
             <span
               key={id}
-              title={i18n.categories[id]}
+              title={tooltip ? i18n.categories[id] : null}
               data-index={i}
               onClick={this.handleClick}
               className={`emoji-mart-anchor ${
