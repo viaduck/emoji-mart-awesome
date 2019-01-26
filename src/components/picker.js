@@ -155,6 +155,7 @@ export default class Picker extends React.PureComponent {
     this.handleSearch = this.handleSearch.bind(this)
     this.setScrollRef = this.setScrollRef.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleResize = this.handleResize.bind(this)
     this.handleScrollPaint = this.handleScrollPaint.bind(this)
     this.handleEmojiOver = this.handleEmojiOver.bind(this)
     this.handleEmojiLeave = this.handleEmojiLeave.bind(this)
@@ -180,6 +181,9 @@ export default class Picker extends React.PureComponent {
         this.setState({ firstRender: false })
       }, 60)
     }
+    
+    if (!this.props.fixedWidth)
+        window.addEventListener('resize', this.handleResize)
   }
 
   componentDidUpdate() {
@@ -192,6 +196,9 @@ export default class Picker extends React.PureComponent {
 
     clearTimeout(this.leaveTimeout)
     clearTimeout(this.firstRenderTimeout)
+    
+    if (!this.props.fixedWidth)
+        window.removeEventListener('resize', this.handleResize)
   }
 
   testStickyPosition() {
@@ -329,6 +336,11 @@ export default class Picker extends React.PureComponent {
     }
 
     this.scrollTop = scrollTop
+  }
+  
+  handleResize() {
+    this.updateCategoriesSize();
+    this.handleScroll();
   }
 
   handleSearch(emojis) {
@@ -472,6 +484,7 @@ export default class Picker extends React.PureComponent {
         showSearch,
         showSkinTones,
         showTooltip,
+        fixedWidth,
         include,
         exclude,
         recent,
@@ -481,7 +494,7 @@ export default class Picker extends React.PureComponent {
         notFoundEmoji,
       } = this.props,
       { skin } = this.state,
-      width = perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar()
+      width = fixedWidth ? perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar() : "auto"
 
     return (
       <div
