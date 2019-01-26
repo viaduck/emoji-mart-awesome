@@ -8,10 +8,8 @@
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   font-size: 16px;
   display: inline-block;
-  color: #222427;
-  border: 1px solid #d9d9d9;
-  border-radius: 5px;
-  background: #fff;
+  background-color: #313335;
+  border: none;
 }
 
 .emoji-mart .emoji-mart-emoji {
@@ -19,7 +17,7 @@
 }
 
 .emoji-mart-bar {
-  border: 0 solid #d9d9d9;
+  border: none;
 }
 .emoji-mart-bar:first-child {
   border-bottom-width: 1px;
@@ -98,9 +96,16 @@
   width: 100%;
   padding: 5px 25px 6px 10px;
   border-radius: 5px;
-  border: 1px solid #d9d9d9;
+  border: 1px transparent;
   outline: 0;
+  color: #ffffff;
+  background-color: #515355;
   margin-bottom: 0.2em;
+}
+
+.emoji-mart-search input::placeholder {
+  color: #ffffff;
+  opacity: 0.5;
 }
 
 .emoji-mart-search-icon {
@@ -126,7 +131,7 @@
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background-color: #f4f4f4;
+  background-color: #515355;
   border-radius: 100%;
 }
 
@@ -143,8 +148,9 @@
   width: 100%;
   font-weight: 500;
   padding: 5px 6px;
-  background-color: #fff;
-  background-color: rgba(255, 255, 255, .95);
+  color: #ffffff;
+  background-color: #515355;
+  border-radius: 5px;
   margin-bottom: 0.2em;
   margin-top: 0.2em;
 }
