@@ -469,6 +469,7 @@ export default class Picker extends React.PureComponent {
         backgroundImageFn,
         emojisToShowFilter,
         showPreview,
+        showSearch,
         showSkinTones,
         emojiTooltip,
         include,
@@ -500,17 +501,19 @@ export default class Picker extends React.PureComponent {
           />
         </div>
 
-        <Search
-          ref={this.setSearchRef}
-          onSearch={this.handleSearch}
-          data={this.data}
-          i18n={this.i18n}
-          emojisToShowFilter={emojisToShowFilter}
-          include={include}
-          exclude={exclude}
-          custom={this.CUSTOM_CATEGORY.emojis}
-          autoFocus={autoFocus}
-        />
+        {showSearch && (
+          <Search
+            ref={this.setSearchRef}
+            onSearch={this.handleSearch}
+            data={this.data}
+            i18n={this.i18n}
+            emojisToShowFilter={emojisToShowFilter}
+            include={include}
+            exclude={exclude}
+            custom={this.CUSTOM_CATEGORY.emojis}
+            autoFocus={autoFocus}
+          />
+        )}
 
         <div
           ref={this.setScrollRef}
