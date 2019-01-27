@@ -1,6 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-
 import { getData, getSanitizedData, unifiedToNative } from '../utils'
 import { uncompress } from '../utils/data'
 import { EmojiPropTypes, EmojiDefaultProps } from '../utils/shared-props'
@@ -190,7 +188,7 @@ const Emoji = (props) => {
   }
 }
 
-Emoji.propTypes = { ...EmojiPropTypes, data: PropTypes.object.isRequired }
+Emoji.propTypes = EmojiPropTypes
 Emoji.defaultProps = EmojiDefaultProps
 
 export default Emoji

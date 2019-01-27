@@ -1568,6 +1568,11 @@ emoji-datasource@4.0.4:
   resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-4.0.4.tgz#516b9ab2f34569e468e4e3753a34a47a0b2b5aa3"
   integrity sha1-UWuasvNFaeRo5ON1OjSkegsrWqM=
 
+emoji-regex@^7.0.3:
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"
+  integrity sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==
+
 emojilib@^2.2.1:
   version "2.2.9"
   resolved "https://registry.yarnpkg.com/emojilib/-/emojilib-2.2.9.tgz#ec5722689fc148f56422c14b0dc16a901d446b75"

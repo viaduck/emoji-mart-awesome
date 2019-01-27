@@ -1,5 +1,5 @@
 import data from '../../data/all.json'
-import { getData, getSanitizedData, intersect } from '.'
+import { getData, getSanitizedData, intersect, unifiedToNative } from '.'
 import { uncompress } from './data'
 
 export class EmojiIndex {
@@ -12,10 +12,12 @@ export class EmojiIndex {
     this.originalPool = {}
     this.index = {}
     this.emojis = {}
+    this.natives = {}
     this.emoticons = {}
     this.customEmojisList = []
 
     this.buildIndex()
+    this.buildInverseIndex()
   }
 
   buildIndex() {
@@ -36,6 +38,20 @@ export class EmojiIndex {
 
       this.emojis[id] = getSanitizedData(id, null, null, this.data)
       this.originalPool[id] = emojiData
+    }
+  }
+
+  buildInverseIndex() {
+    for (let emoji in this.data.emojis) {
+      const emojiData = this.data.emojis[emoji]
+      this.natives[unifiedToNative(emojiData.unified)] = ":" + emoji + ":"
+
+      let skin_tone = 2
+      if (emojiData.skin_variations)
+        for (let variation in emojiData.skin_variations) {
+          const skinData = emojiData.skin_variations[variation]
+          this.natives[unifiedToNative(skinData.unified)] = ":" + emoji + ":skin-tone-" + skin_tone++ + ":"
+        }
     }
   }
 
@@ -197,10 +213,10 @@ export class EmojiIndex {
 }
 
 const emojiIndex = new EmojiIndex(data);
-const { emojis, emoticons } = emojiIndex;
+const { emojis, emoticons, natives } = emojiIndex;
 
 function search() {
   return emojiIndex.search(...arguments)
 }
 
-export { search, emojis, emoticons, emojiIndex }
+export { search, emojis, emoticons, natives, emojiIndex }

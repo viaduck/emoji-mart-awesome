@@ -5,4 +5,5 @@ export { default as frequently } from './utils/frequently'
 
 export { default as Picker } from './components/picker'
 export { default as Emoji } from './components/emoji'
+export { default as EmojiText } from './components/emoji-text'
 export { default as Category } from './components/category'

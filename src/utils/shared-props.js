@@ -2,7 +2,7 @@ import data from '../../data/all.json'
 import PropTypes from 'prop-types'
 
 const EmojiPropTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   onOver: PropTypes.func,
   onLeave: PropTypes.func,
   onClick: PropTypes.func,
@@ -117,9 +117,24 @@ const PickerDefaultProps = {
   icons: {},
 }
 
+const EmojiTextPropTypes = {
+  text: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  emojiProps: EmojiPropTypes,
+}
+
+const EmojiTextDefaultProps = {
+  className: '',
+  style: {},
+  emojiProps: {size: 24}
+}
+
 export {
   EmojiPropTypes,
   EmojiDefaultProps,
   PickerPropTypes,
   PickerDefaultProps,
+  EmojiTextPropTypes,
+  EmojiTextDefaultProps
 }
