@@ -1,19 +1,21 @@
 <div align="center">
-  <br><b>Emoji Mart</b> is a Slack-like customizable<br>emoji picker component for React
-  <br><a href="https://missive.github.io/emoji-mart">Demo</a> • <a href="https://github.com/missive/emoji-mart/releases">Changelog</a>
-  <br><br><img width="338" alt="picker" src="https://user-images.githubusercontent.com/436043/43481399-d9b60acc-94d3-11e8-9b3b-e5f2db8f0bd1.png">
-  <br><br><a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com"><img width="30" alt="Missive | Team email, team chat, team tasks, one app" src="https://user-images.githubusercontent.com/436043/32532559-0d15ddfc-c400-11e7-8a24-64d0157d0cb0.png"></a>
-  <br>Brought to you by the <a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com">Missive</a> team
+  <br><b>Emoji Mart Awesome</b> is a Slack-like customizable<br>emoji picker for react, including a text renderer component for React
+  <br><br>
+  <img height="400" alt="picker" src="https://user-images.githubusercontent.com/436043/43481399-d9b60acc-94d3-11e8-9b3b-e5f2db8f0bd1.png">
+  <img height="400" alt="picker-dark" src="https://user-images.githubusercontent.com/12189489/51796051-e1743a80-21ec-11e9-8a04-92e57aa9de3b.png">
+  <br><b>Light Mode</b> vs <b>Dark Mode</b><br>
 </div>
 
 ## Installation
 
-`npm install --save emoji-mart`
+`npm install --save emoji-mart-awesome`  
+or  
+`yarn add emoji-mart-awesome`
 
 ## Components
 ### Picker
 ```jsx
-import 'emoji-mart/css/emoji-mart.css'
+import 'emoji-mart/css/emoji-mart.css' // or emoji-mart-dark.css for dark mode
 import { Picker } from 'emoji-mart'
 
 <Picker set='emojione' />
@@ -23,37 +25,39 @@ import { Picker } from 'emoji-mart'
 <Picker i18n={{ search: 'Recherche', categories: { search: 'Résultats de recherche', recent: 'Récents' } }} />
 ```
 
-| Prop | Required | Default | Description |
-| ---- | :------: | ------- | ----------- |
-| **autoFocus** | | `false` | Auto focus the search input when mounted |
-| **color** | | `#ae65c5` | The top bar anchors select and hover color |
-| **emoji** | | `department_store` | The emoji shown when no emojis are hovered, set to an empty string to show nothing |
-| **include** | | `[]` | Only load included categories. Accepts [I18n categories keys](#i18n). Order will be respected, except for the `recent` category which will always be the first. |
-| **exclude** | | `[]` | Don't load excluded categories. Accepts [I18n categories keys](#i18n). |
-| **custom** | | `[]` | [Custom emojis](#custom-emojis) |
-| **recent** | | | Pass your own frequently used emojis as array of string IDs |
-| **emojiSize** | | `24` | The emoji width and height |
-| **onClick** | | | Params: `(emoji, event) => {}`. Not called when emoji is selected with `enter` |
-| **onSelect** | | | Params: `(emoji) => {}`  |
-| **onSkinChange** | | | Params: `(skin) => {}` |
-| **perLine** | | `9` | Number of emojis per line. While there’s no minimum or maximum, this will affect the picker’s width. This will set *Frequently Used* length as well (`perLine * 4`) |
-| **i18n** | | [`{…}`](#i18n) | [An object](#i18n) containing localized strings |
-| **native** | | `false` | Renders the native unicode emoji |
-| **set** | | `apple` | The emoji set: `'apple', 'google', 'twitter', 'emojione', 'messenger', 'facebook'` |
-| **sheetSize** | | `64` | The emoji [sheet size](#sheet-sizes): `16, 20, 32, 64` |
-| **backgroundImageFn** | | ```((set, sheetSize) => …)``` | A Fn that returns that image sheet to use for emojis. Useful for avoiding a request if you have the sheet locally. |
-| **emojisToShowFilter** | | ```((emoji) => true)``` | A Fn to choose whether an emoji should be displayed or not |
-| **showPreview** | | `true` | Display preview section |
-| **showSkinTones** | | `true` | Display skin tones picker |
-| **emojiTooltip** | | `false` | Show emojis short name when hovering (title) |
-| **skin** | | | Forces skin color: `1, 2, 3, 4, 5, 6` |
-| **defaultSkin** | | `1` | Default skin color: `1, 2, 3, 4, 5, 6` |
-| **skinEmoji** | | | The emoji used to pick a skin tone. Uses an emoji-less skin tone picker by default |
-| **style** | | | Inline styles applied to the root element. Useful for positioning |
-| **title** | | `Emoji Mart™` | The title shown when no emojis are hovered |
-| **notFoundEmoji** | | `sleuth_or_spy` | The emoji shown when there are no search results |
-| **notFound** | | | [Not Found](#not-found) |
-| **icons** | | `{}` | [Custom icons](#custom-icons) |
+| Prop | Default | Description |
+| ---- | ------- | ----------- |
+| **showSearch** | `true` | Display search bar (new) |
+| **showTooltips** | `false` | Display any tooltip (new). Show emojis short name when hovering (title) |
+| **fixedWidth** | `true` | Allows variable width picker (new) |
+| **autoFocus** | `false` | Auto focus the search input when mounted |
+| **color** | `#ae65c5` | The top bar anchors select and hover color |
+| **emoji** | `department_store` | The emoji shown when no emojis are hovered, set to an empty string to show nothing |
+| **include** | `[]` | Only load included categories. Accepts [I18n categories keys](#i18n). Order will be respected, except for the `recent` category which will always be the first. |
+| **exclude** | `[]` | Don't load excluded categories. Accepts [I18n categories keys](#i18n). |
+| **custom** | `[]` | [Custom emojis](#custom-emojis) |
+| **recent** | | Pass your own frequently used emojis as array of string IDs |
+| **emojiSize** | `24` | The emoji width and height |
+| **onClick** | | Params: `(emoji, event) => {}`. Not called when emoji is selected with `enter` |
+| **onSelect** | | Params: `(emoji) => {}`  |
+| **onSkinChange** | | Params: `(skin) => {}` |
+| **perLine** | `9` | Number of emojis per line. While there’s no minimum or maximum, this will affect the picker’s width. This will set *Frequently Used* length as well (`perLine * 4`) |
+| **i18n** | [`{…}`](#i18n) | [An object](#i18n) containing localized strings |
+| **native** | `false` | Renders the native unicode emoji |
+| **set** | `apple` | The emoji set: `'apple', 'google', 'twitter', 'emojione', 'messenger', 'facebook'` |
+| **sheetSize** | `64` | The emoji [sheet size](#sheet-sizes): `16, 20, 32, 64` |
+| **backgroundImageFn** | ```((set, sheetSize) => …)``` | A Fn that returns that image sheet to use for emojis. Useful for avoiding a request if you have the sheet locally. |
+| **emojisToShowFilter** | ```((emoji) => true)``` | A Fn to choose whether an emoji should be displayed or not |
+| **showPreview** | `true` | Display preview section |
+| **showSkinTones** | `true` | Display skin tones picker |
+| **skin** | | Forces skin color: `1, 2, 3, 4, 5, 6` |
+| **defaultSkin** | `1` | Default skin color: `1, 2, 3, 4, 5, 6` |
+| **skinEmoji** | | The emoji used to pick a skin tone. Uses an emoji-less skin tone picker by default |
+| **style** | | Inline styles applied to the root element. Useful for positioning |
+| **title** | `Emoji Mart™` | The title shown when no emojis are hovered |
+| **notFoundEmoji** | `sleuth_or_spy` | The emoji shown when there are no search results |
+| **notFound** | | [Not Found](#not-found) |
+| **icons** | `{}` | [Custom icons](#custom-icons) |
 
 #### I18n
 ```js
@@ -75,6 +79,22 @@ categories: {
 }
 ```
 
+### EmojiText
+```jsx
+import { EmojiText } from 'emoji-mart'
+
+<EmojiText text='This text contains unicode emojis 👍' />
+<EmojiText className='foo' style={{color: '#fff'}} text='This text contains unicode emojis 👍' emojiProps={{size: 64}}/>
+```
+
+| Prop | Required | Default | Description |
+| ---- | :------: | ------- | ----------- |
+| text | | | Text mixed with unicode emojis |
+| className | | | CSS class name for custom styles |
+| style | | | Inline CSS styles |
+| emojiProps | | | All options passed to `Emoji` can be passed here |
+
+
 #### Sheet sizes
 Sheets are served from [unpkg](https://unpkg.com), a global CDN that serves files published to [npm](https://www.npmjs.com).
 
@@ -88,26 +108,7 @@ Sheets are served from [unpkg](https://unpkg.com), a global CDN that serves file
 | twitter   | 288 KB                 | 389 KB                 |  839 KB                | 1.82 MB                |
 
 #### Datasets
-While all sets are available by default, you may want to include only a single set data to reduce the size of your bundle.
-
-| Set       | Size (on disk) |
-| --------- | -------------- |
-| all       | 570 KB         |
-| apple     | 484 KB         |
-| emojione  | 485 KB         |
-| facebook  | 421 KB         |
-| google    | 483 KB         |
-| messenger | 197 KB         |
-| twitter   | 484 KB         |
-
-To use these data files (or any other custom data), use the `NimblePicker` component:
-
-```js
-import data from 'emoji-mart/data/messenger.json'
-import { NimblePicker } from 'emoji-mart'
-
-<NimblePicker set='messenger' data={data} />
-```
+All sets are available by default. Current dataset size: 570 KB.
 
 #### Examples of `emoji` object:
 ```js
@@ -327,7 +328,7 @@ Possible keys are:
 ## Features
 ### Powerful search
 #### Short name, name and keywords
-Not only does **Emoji Mart** return more results than most emoji picker, they’re more accurate and sorted by relevance.
+Not only does **Emoji Mart** return more results than most emoji pickers, they’re more accurate and sorted by relevance.
 
 <img width="338" alt="summer" src="https://user-images.githubusercontent.com/436043/32532567-179f1be4-c400-11e7-885e-df6e9b52c665.png">
 
@@ -365,20 +366,8 @@ Apple / Google / Twitter / EmojiOne / Messenger / Facebook
 ## Not opinionated
 **Emoji Mart** doesn’t automatically insert anything into a text input, nor does it show or hide itself. It simply returns an `emoji` object. It’s up to the developer to mount/unmount (it’s fast!) and position the picker. You can use the returned object as props for the `EmojiMart.Emoji` component. You could also use `emoji.colons` to insert text into a textarea or `emoji.native` to use the emoji.
 
-## Development
-```sh
-$ yarn build
-$ yarn start
-$ yarn storybook
-```
-
 ## 🎩 Hat tips!
+Forked from [missive/emoji-mart](https://github.com/missive/emoji-mart).<br>
+🍴 [Emoji Mart](https://missive.github.io/emoji-mart).<br>
 Powered by [iamcal/emoji-data](https://github.com/iamcal/emoji-data) and inspired by [iamcal/js-emoji](https://github.com/iamcal/js-emoji).<br>
 🙌🏼  [Cal Henderson](https://github.com/iamcal).
-
-<br><br>
-<div align="center">
-  <a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com"><img width="64" alt="Missive | Team email, team chat, team tasks, one app" src="https://user-images.githubusercontent.com/436043/32532559-0d15ddfc-c400-11e7-8a24-64d0157d0cb0.png"></a>
-  <br><a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com">Missive</a> mixes team email and threaded group chat for productive teams.
-  <br>A single app for all your internal and external communication and a full work management solution.
-</div>
