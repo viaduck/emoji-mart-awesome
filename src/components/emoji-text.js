@@ -7,7 +7,14 @@ import Emoji from "./emoji";
 const emojiRegex = emojiRegexFn();
 
 const renderEmoji = (unicode, index, emojiProps) => {
-  return (<Emoji emoji={natives[unicode]} key={'emoji-'+index} {...emojiProps}/>)
+  return (
+      <Emoji
+        key={'emoji-'+index}
+        emoji={natives[unicode]}
+        inline={true}
+        style={{verticalAlign: "bottom"}}
+        {...emojiProps}
+      />)
 }
 
 const replaceNative = (text, emojiProps) => {

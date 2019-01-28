@@ -92,9 +92,9 @@ const Emoji = (props) => {
   }
 
   let { unified, custom, short_names, imageUrl } = data,
-    style = {},
+    style = props.style,
     children = props.children,
-    className = 'emoji-mart-emoji',
+    className = props.className,
     title = null
 
   if (!unified && !custom) {
@@ -110,8 +110,8 @@ const Emoji = (props) => {
   }
 
   if (props.native && unified) {
-    className += ' emoji-mart-emoji-native'
-    style = { fontSize: props.size }
+    className += ' ' + props.classNameNative
+    style.fontSize = props.size
     children = unifiedToNative(unified)
 
     if (props.forceSize) {
@@ -120,12 +120,10 @@ const Emoji = (props) => {
       style.height = props.size
     }
   } else if (custom) {
-    className += ' emoji-mart-emoji-custom'
-    style = {
-      width: props.size,
-      height: props.size,
-      display: 'inline-block',
-    }
+    className += ' ' + props.classNameCustom
+    style.display = 'inline-block'
+    style.width = props.size
+    style.height = props.size
     if (data.spriteUrl) {
       style = {
         ...style,
@@ -153,6 +151,7 @@ const Emoji = (props) => {
       }
     } else {
       style = {
+        ...style,
         width: props.size,
         height: props.size,
         display: 'inline-block',
@@ -172,6 +171,16 @@ const Emoji = (props) => {
     return `<span style='${style}' ${
       title ? `title='${title}'` : ''
     } class='${className}'>${children || ''}</span>`
+  } else if (props.inline) {
+    return (
+        <span
+            key={props.emoji.id || props.emoji}
+            className={className}
+            style={style}
+        >
+          {children}
+        </span>
+    )
   } else {
     return (
       <span

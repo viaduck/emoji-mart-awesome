@@ -569,6 +569,9 @@ export default class Picker extends React.PureComponent {
                   onOver: this.handleEmojiOver,
                   onLeave: this.handleEmojiLeave,
                   onClick: this.handleEmojiClick,
+                  className: 'emoji-mart-emoji',
+                  classNameNative: 'emoji-mart-emoji-native',
+                  classNameCustom: 'emoji-mart-emoji-custom'
                 }}
                 notFound={notFound}
                 notFoundEmoji={notFoundEmoji}
