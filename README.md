@@ -90,8 +90,8 @@ import { EmojiText } from 'emoji-mart'
 | Prop | Required | Default | Description |
 | ---- | :------: | ------- | ----------- |
 | text | | | Text mixed with unicode emojis |
-| className | | | CSS class name for custom styles |
-| style | | | Inline CSS styles |
+| className | | | Class name for custom style |
+| style | | | Inline style applied to the element |
 | emojiProps | | | All options passed to `Emoji` can be passed here |
 
 
@@ -160,6 +160,11 @@ import { Emoji } from 'emoji-mart'
 | ---- | :------: | ------- | ----------- |
 | **emoji** | ✓ | | Either a string or an `emoji` object |
 | **size** | ✓ | | The emoji width and height. |
+| **inline** | | `false` | Do not render emoji in a wrapping span (new) |
+| **style** | | `{}` | Inline styles applied to inner span (new) |
+| **className** | | `` | Class name for custom style applied to all emojis (new) |
+| **classNameNative** | | `` | Class name for custom style applied to native emojis only (new) |
+| **classNameCustom** | | `` | Class name for custom style applied to custom emojis only (new) |
 | **native** | | `false` | Renders the native unicode emoji |
 | **onClick** | | | Params: `(emoji, event) => {}` |
 | **onLeave** | | | Params: `(emoji, event) => {}` |
