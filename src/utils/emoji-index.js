@@ -50,7 +50,7 @@ export class EmojiIndex {
       if (emojiData.skin_variations)
         for (let variation in emojiData.skin_variations) {
           const skinData = emojiData.skin_variations[variation]
-          this.natives[unifiedToNative(skinData.unified)] = ":" + emoji + ":skin-tone-" + skin_tone++ + ":"
+          this.natives[unifiedToNative(skinData.unified)] = ":" + emoji + "::skin-tone-" + skin_tone++ + ":"
         }
     }
   }
