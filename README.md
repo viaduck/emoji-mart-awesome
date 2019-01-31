@@ -30,6 +30,7 @@ import { Picker } from 'emoji-mart'
 | **showSearch** | `true` | Display search bar (new) |
 | **showTooltips** | `false` | Display any tooltip (new). Show emojis short name when hovering (title) |
 | **fixedWidth** | `true` | Allows variable width picker (new) |
+| **inlineSkinPicker** | `false` | Shows per-emoji skin picker (new) |
 | **autoFocus** | `false` | Auto focus the search input when mounted |
 | **color** | `#ae65c5` | The top bar anchors select and hover color |
 | **emoji** | `department_store` | The emoji shown when no emojis are hovered, set to an empty string to show nothing |
