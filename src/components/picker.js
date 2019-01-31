@@ -14,6 +14,7 @@ import Anchors from './anchors'
 import Category from './category'
 import Preview from './preview'
 import Search from './search'
+import Emoji from './emoji'
 
 const I18N = {
   search: 'Search',
@@ -57,6 +58,7 @@ export default class Picker extends React.PureComponent {
     this.state = {
       skin: props.skin || store.get('skin') || props.defaultSkin,
       firstRender: true,
+      currentEmoji: null
     }
 
     this.categories = []
@@ -250,6 +252,14 @@ export default class Picker extends React.PureComponent {
   }
 
   handleEmojiSelect(emoji) {
+    if (this.props.inlineSkinPicker && emoji.skin != null) {
+      if (!this.state.currentEmoji || this.state.currentEmoji.id !== emoji.id) {
+        this.setState({currentEmoji: emoji})
+        return
+      }
+    }
+
+    this.setState({currentEmoji: null})
     this.props.onSelect(emoji)
     if (!this.hideRecent && !this.props.recent) frequently.add(emoji)
 
@@ -493,8 +503,27 @@ export default class Picker extends React.PureComponent {
         notFound,
         notFoundEmoji,
       } = this.props,
-      { skin } = this.state,
+      { skin, currentEmoji } = this.state,
       width = fixedWidth ? perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar() : "auto"
+
+    let emojiProps = {
+      native: native,
+      skin: skin,
+      size: emojiSize,
+      set: set,
+      sheetSize: sheetSize,
+      sheetColumns: sheetColumns,
+      sheetRows: sheetRows,
+      forceSize: native,
+      tooltip: showTooltip,
+      backgroundImageFn: backgroundImageFn,
+      onOver: this.handleEmojiOver,
+      onLeave: this.handleEmojiLeave,
+      onClick: this.handleEmojiClick,
+      className: 'emoji-mart-emoji',
+      classNameNative: 'emoji-mart-emoji-native',
+      classNameCustom: 'emoji-mart-emoji-custom'
+    }
 
     return (
       <div
@@ -514,6 +543,12 @@ export default class Picker extends React.PureComponent {
             icons={this.icons}
           />
         </div>
+
+        {currentEmoji && (
+          <div className="emoji-mart-category emoji-mart-inline-skin">
+            {[1,2,3,4,5,6].map(i => <Emoji key={i} emoji={currentEmoji.id} {...emojiProps} skin={i}/>)}
+          </div>
+        )}
 
         {showSearch && (
           <Search
@@ -555,24 +590,7 @@ export default class Picker extends React.PureComponent {
                     ? this.CUSTOM_CATEGORY.emojis
                     : undefined
                 }
-                emojiProps={{
-                  native: native,
-                  skin: skin,
-                  size: emojiSize,
-                  set: set,
-                  sheetSize: sheetSize,
-                  sheetColumns: sheetColumns,
-                  sheetRows: sheetRows,
-                  forceSize: native,
-                  tooltip: showTooltip,
-                  backgroundImageFn: backgroundImageFn,
-                  onOver: this.handleEmojiOver,
-                  onLeave: this.handleEmojiLeave,
-                  onClick: this.handleEmojiClick,
-                  className: 'emoji-mart-emoji',
-                  classNameNative: 'emoji-mart-emoji-native',
-                  classNameCustom: 'emoji-mart-emoji-custom'
-                }}
+                emojiProps={emojiProps}
                 notFound={notFound}
                 notFoundEmoji={notFoundEmoji}
               />
@@ -612,8 +630,5 @@ export default class Picker extends React.PureComponent {
   }
 }
 
-Picker.propTypes = {
-  ...PickerPropTypes,
-  data: PropTypes.object.isRequired,
-}
-Picker.defaultProps = { ...PickerDefaultProps }
+Picker.propTypes = PickerPropTypes
+Picker.defaultProps = PickerDefaultProps

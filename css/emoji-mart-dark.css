@@ -118,6 +118,13 @@
   background: none;
 }
 
+.emoji-mart-inline-skin {
+  display: flex;
+  justify-content: space-evenly;
+  max-width: 20em;
+  margin: auto;
+}
+
 .emoji-mart-category .emoji-mart-emoji span {
   z-index: 1;
   position: relative;

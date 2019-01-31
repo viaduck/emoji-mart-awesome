@@ -55,6 +55,7 @@ const EmojiDefaultProps = {
 }
 
 const PickerPropTypes = {
+  data: EmojiPropTypes.data,
   onClick: PropTypes.func,
   onSelect: PropTypes.func,
   onSkinChange: PropTypes.func,
@@ -73,6 +74,7 @@ const PickerPropTypes = {
   emojisToShowFilter: PropTypes.func,
   showPreview: PropTypes.bool,
   showSearch: PropTypes.bool,
+  inlineSkinPicker: PropTypes.bool,
   fixedWidth: PropTypes.bool,
   showSkinTones: PropTypes.bool,
   showTooltip: EmojiPropTypes.tooltip,
@@ -116,6 +118,7 @@ const PickerDefaultProps = {
   emojisToShowFilter: null,
   showPreview: true,
   showSearch: true,
+  inlineSkinPicker: false,
   fixedWidth: true,
   showSkinTones: true,
   showTooltip: EmojiDefaultProps.tooltip,
