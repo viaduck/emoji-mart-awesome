@@ -17,8 +17,8 @@ const renderEmoji = (unicode, index, emojiProps) => {
       />)
 }
 
-const replaceNative = (text, emojiProps) => {
-  let result = [], prevIndex = 0, match;
+const replaceNative = (result, text, emojiProps) => {
+  let prevIndex = 0, match;
 
   while ((match = emojiRegex.exec(text))) {
     let index = match.index, unicode = match[0];
@@ -37,7 +37,20 @@ const replaceNative = (text, emojiProps) => {
   // if leftover text exists, append it to result
   if (prevIndex < text.length)
     result.push(text.substring(prevIndex));
+}
 
+const replace = (elements, emojiProps) => {
+  let result = [];
+  
+  for (let e in elements) {
+    const value = elements[e];
+    
+    if (typeof value === 'string')
+        replaceNative(result, value, emojiProps);
+    else
+        result.push(value);
+  }
+  
   return result;
 }
 
@@ -53,7 +66,7 @@ const EmojiText = (props) => {
 
   return (
     <p className={className} style={style}>
-      {replaceNative(props.text, props.emojiProps)}
+      {replace(props.children, props.emojiProps)}
     </p>
   )
 }

@@ -131,7 +131,6 @@ const PickerDefaultProps = {
 }
 
 const EmojiTextPropTypes = {
-  text: PropTypes.string.isRequired,
   className: PropTypes.string,
   style: PropTypes.object,
   emojiProps: EmojiPropTypes,
