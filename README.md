@@ -84,13 +84,13 @@ categories: {
 ```jsx
 import { EmojiText } from 'emoji-mart'
 
-<EmojiText text='This text contains unicode emojis 👍' />
-<EmojiText className='foo' style={{color: '#fff'}} text='This text contains unicode emojis 👍' emojiProps={{size: 64}}/>
+<EmojiText>This text contains unicode emojis 👍</EmojiText>
+<EmojiText className='foo' style={{color: '#fff'}} emojiProps={{size: 64}}>This text contains unicode emojis 👍</EmojiText>
 ```
 
 | Prop | Required | Default | Description |
 | ---- | :------: | ------- | ----------- |
-| text | | | Text mixed with unicode emojis |
+| children | ✓ | | Text with unicode emojis, other elements |
 | className | | | Class name for custom style |
 | style | | | Inline style applied to the element |
 | emojiProps | | | All options passed to `Emoji` can be passed here |
