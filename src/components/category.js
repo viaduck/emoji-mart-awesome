@@ -180,6 +180,12 @@ export default class Category extends React.Component {
       }
     }
 
+    if (name === "Recent") {
+      labelStyles = {
+        display: 'none',
+      }
+    }
+
     const label = i18n.categories[id] || name
 
     return (
