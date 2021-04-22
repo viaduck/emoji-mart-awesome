@@ -96,7 +96,7 @@
 .emoji-mart-search {
   margin-top: 6px;
   padding: 0 6px;
-  position: relative;
+  position: sticky;
 }
 
 .emoji-mart-search input {

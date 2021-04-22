@@ -199,6 +199,7 @@ export default class NimblePicker extends React.PureComponent {
   componentDidMount() {
     if (this.state.firstRender) {
       this.testStickyPosition()
+      this.categoryRefs['category-1'].container.scrollIntoView()
       this.firstRenderTimeout = setTimeout(() => {
         this.setState({ firstRender: false })
       }, 60)
@@ -407,7 +408,7 @@ export default class NimblePicker extends React.PureComponent {
         let { top } = component
 
         if (category.first) {
-          top = 0
+          top += 0
         } else {
           top += 1
         }
@@ -563,23 +564,23 @@ export default class NimblePicker extends React.PureComponent {
           />
         </div>
 
-        <Search
-          ref={this.setSearchRef}
-          onSearch={this.handleSearch}
-          data={this.data}
-          i18n={this.i18n}
-          emojisToShowFilter={emojisToShowFilter}
-          include={include}
-          exclude={exclude}
-          custom={this.CUSTOM}
-          autoFocus={autoFocus}
-        />
-
         <div
           ref={this.setScrollRef}
           className="emoji-mart-scroll"
           onScroll={this.handleScroll}
         >
+          <Search
+            ref={this.setSearchRef}
+            onSearch={this.handleSearch}
+            data={this.data}
+            i18n={this.i18n}
+            emojisToShowFilter={emojisToShowFilter}
+            include={include}
+            exclude={exclude}
+            custom={this.CUSTOM}
+            autoFocus={autoFocus}
+          />
+
           {this.getCategories().map((category, i) => {
             return (
               <Category
