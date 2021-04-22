@@ -54,6 +54,7 @@ storiesOf('Picker', module)
       native={boolean('Unicode', true)}
       theme={select('Theme', THEMES, THEMES[0])}
       set={select('Emoji pack', SETS, SETS[0])}
+      fixedWidth={boolean('Fixed width', true)}
       emojiSize={number('Emoji size', 24)}
       perLine={number('Per line', 9, { min: 6 })}
       title={text('Idle text', 'Your Title Here')}

@@ -185,6 +185,7 @@ export default class NimblePicker extends React.PureComponent {
     this.handleSearch = this.handleSearch.bind(this)
     this.setScrollRef = this.setScrollRef.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
+    this.handleResize = this.handleResize.bind(this)
     this.handleScrollPaint = this.handleScrollPaint.bind(this)
     this.handleEmojiOver = this.handleEmojiOver.bind(this)
     this.handleEmojiLeave = this.handleEmojiLeave.bind(this)
@@ -204,6 +205,9 @@ export default class NimblePicker extends React.PureComponent {
         this.setState({ firstRender: false })
       }, 60)
     }
+
+    if (!this.props.fixedWidth)
+      window.addEventListener('resize', this.handleResize)
   }
 
   componentDidUpdate() {
@@ -220,6 +224,9 @@ export default class NimblePicker extends React.PureComponent {
     if (this.darkMatchMedia) {
       this.darkMatchMedia.removeListener(this.handleDarkMatchMediaChange)
     }
+
+    if (!this.props.fixedWidth)
+      window.removeEventListener('resize', this.handleResize)
   }
 
   testStickyPosition() {
@@ -379,6 +386,11 @@ export default class NimblePicker extends React.PureComponent {
     this.scrollTop = scrollTop
   }
 
+  handleResize() {
+    this.updateCategoriesSize()
+    this.handleScroll()
+  }
+
   handleSearch(emojis) {
     this.SEARCH_CATEGORY.emojis = emojis
 
@@ -511,6 +523,7 @@ export default class NimblePicker extends React.PureComponent {
 
   render() {
     var {
+      fixedWidth,
       perLine,
       emojiSize,
       set,
@@ -537,7 +550,7 @@ export default class NimblePicker extends React.PureComponent {
       notFoundEmoji,
     } = this.props
 
-    var width = perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar()
+    var width = fixedWidth ? perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar() : 'auto'
     var theme = this.getPreferredTheme()
     var skin =
       this.props.skin ||
