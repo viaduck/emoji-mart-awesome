@@ -80,7 +80,7 @@ function getData(emoji, skin, set, data) {
 
     if (data.emojis.hasOwnProperty(emoji)) {
       emojiData = data.emojis[emoji]
-    } else {
+    } else if (!(emojiData = getEmojiDataFromNative(emoji, set, data))) {
       return null
     }
   } else if (emoji.id) {
