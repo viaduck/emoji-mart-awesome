@@ -550,7 +550,7 @@ export default class NimblePicker extends React.PureComponent {
       notFoundEmoji,
     } = this.props
 
-    var width = fixedWidth ? perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar() : 'auto'
+    var width = fixedWidth ? perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar() : '100%'
     var theme = this.getPreferredTheme()
     var skin =
       this.props.skin ||
@@ -602,7 +602,7 @@ export default class NimblePicker extends React.PureComponent {
                 id={category.id}
                 name={category.name}
                 emojis={category.emojis}
-                perLine={perLine}
+                perLine={fixedWidth ? perLine : 0}
                 native={native}
                 hasStickyPosition={this.hasStickyPosition}
                 data={this.data}

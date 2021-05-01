@@ -104,7 +104,7 @@ export default class Category extends React.Component {
 
     if (name == 'Recent') {
       let { custom } = this.props
-      let frequentlyUsed = recent || frequently.get(perLine)
+      let frequentlyUsed = recent || frequently.get(perLine || 40)
 
       if (frequentlyUsed.length) {
         emojis = frequentlyUsed
@@ -158,11 +158,13 @@ export default class Category extends React.Component {
         i18n,
         notFound,
         notFoundEmoji,
+        perLine
       } = this.props,
       emojis = this.getEmojis(),
       labelStyles = {},
       labelSpanStyles = {},
-      containerStyles = {}
+      containerStyles = {},
+      listStyles = {}
 
     if (!emojis) {
       containerStyles = {
@@ -183,6 +185,14 @@ export default class Category extends React.Component {
     if (name === "Recent") {
       labelStyles = {
         display: 'none',
+      }
+    }
+
+    if (!perLine) {
+      listStyles = {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, 36px)',
+        justifyContent: 'space-between',
       }
     }
 
@@ -209,7 +219,10 @@ export default class Category extends React.Component {
           </span>
         </div>
 
-        <ul className="emoji-mart-category-list">
+        <ul
+          style={listStyles}
+          className="emoji-mart-category-list"
+        >
           {emojis &&
             emojis.map((emoji) => (
               <li
