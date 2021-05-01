@@ -1,6 +1,8 @@
-import { getData, getSanitizedData, intersect } from '..'
+import { getData, getSanitizedData, intersect, unifiedToNative } from '..'
 import { uncompress } from '../data'
 import store from '../store'
+
+const SKINS = ['1F3FA', '1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF']
 
 export default class NimbleEmojiIndex {
   constructor(data, set) {
@@ -13,10 +15,12 @@ export default class NimbleEmojiIndex {
     this.originalPool = {}
     this.index = {}
     this.emojis = {}
+    this.natives = {}
     this.emoticons = {}
     this.customEmojisList = []
 
     this.buildIndex()
+    this.buildNativeIndex()
   }
 
   buildIndex() {
@@ -51,6 +55,30 @@ export default class NimbleEmojiIndex {
       }
 
       this.originalPool[id] = emojiData
+    }
+  }
+
+  buildNativeIndex() {
+    for (let emoji in this.data.emojis) {
+      let emojiData = this.data.emojis[emoji],
+        { short_names, unified, skin_variations } = emojiData,
+        id = short_names[0], skinData
+
+      // Codepoint without skin
+      this.natives[unifiedToNative(unified)] = getData(id, null, this.set, this.data)
+
+      // Codepoints with forced skin tone
+      if (skin_variations) {
+        for (let skinTone = 1; skinTone <= 6; skinTone++) {
+          skinData = skin_variations[SKINS[skinTone - 1]] || {unified: unified + "-" + SKINS[skinTone - 1]}
+          this.natives[unifiedToNative(skinData.unified)] = getData(
+            {id, skin: skinTone},
+            skinTone,
+            this.set,
+            this.data,
+          )
+        }
+      }
     }
   }
 

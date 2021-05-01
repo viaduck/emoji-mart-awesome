@@ -1,6 +1,7 @@
 import { buildSearch } from './data'
 import stringFromCodePoint from '../polyfills/stringFromCodePoint'
 import { uncompress } from './data'
+import { default as emojiIndex } from './emoji-index/emoji-index'
 
 const COLONS_REGEX = /^(?:\:([^\:]+)\:)(?:\:skin-tone-(\d)\:)?$/
 const SKINS = ['1F3FA', '1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF']
@@ -80,9 +81,8 @@ function getData(emoji, skin, set, data) {
 
     if (data.emojis.hasOwnProperty(emoji)) {
       emojiData = data.emojis[emoji]
-    } else if ((emoji = getEmojiDataFromNative(emoji, set, data))) {
-      emojiData = data.emojis[emoji.id]
-      skin = emoji.skin
+    } else if (emojiIndex.natives.hasOwnProperty(emoji)) {
+      return emojiIndex.natives[emoji]
     } else {
       return null
     }
