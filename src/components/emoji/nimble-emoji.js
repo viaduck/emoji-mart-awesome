@@ -199,7 +199,11 @@ const NimbleEmoji = (props) => {
   } else {
     return (
       <Tag.name
-        onClick={(e) => _handleClick(e, props)}
+        onMouseDown={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+          return _handleClick(e, props)
+        }}
         onMouseEnter={(e) => _handleOver(e, props)}
         onMouseLeave={(e) => _handleLeave(e, props)}
         aria-label={label}
