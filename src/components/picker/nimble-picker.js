@@ -12,6 +12,7 @@ import Anchors from '../anchors'
 import Category from '../category'
 import Preview from '../preview'
 import Search from '../search'
+import Emoji from '../emoji/emoji'
 import { PickerDefaultProps } from '../../utils/shared-default-props'
 
 const I18N = {
@@ -206,13 +207,12 @@ export default class NimblePicker extends React.PureComponent {
       }, 60)
     }
 
-    if (!this.props.fixedWidth)
-      window.addEventListener('resize', this.handleResize)
+    window.addEventListener('resize', this.handleResize)
   }
 
   componentDidUpdate() {
     this.updateCategoriesSize()
-    this.handleScroll()
+    this.handleScroll(false)
   }
 
   componentWillUnmount() {
@@ -225,8 +225,7 @@ export default class NimblePicker extends React.PureComponent {
       this.darkMatchMedia.removeListener(this.handleDarkMatchMediaChange)
     }
 
-    if (!this.props.fixedWidth)
-      window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.handleResize)
   }
 
   testStickyPosition() {
@@ -292,7 +291,23 @@ export default class NimblePicker extends React.PureComponent {
 
   handleEmojiClick(emoji, e) {
     this.props.onClick(emoji, e)
-    this.handleEmojiSelect(emoji)
+
+    if (this.handleInlineSkinPicker(emoji, e))
+      this.handleEmojiSelect(emoji)
+  }
+
+  handleInlineSkinPicker(emoji, e) {
+    if (emoji.skin != null && (!this.state.inlineSkin || this.state.inlineSkin.emoji.id !== emoji.id)) {
+      var parent = e.target.childElementCount ? e.target : e.target.offsetParent, rect = parent.getBoundingClientRect(),
+        top = rect.top - parent.clientHeight, left = rect.left + (parent.clientWidth / 2),
+        right = this.scroll.offsetWidth - rect.right + parent.clientWidth, leftSide = left < this.scroll.clientWidth / 2
+
+      this.setState({inlineSkin: {emoji, left: leftSide && left, right: !leftSide && right, top}})
+      return false
+    }
+
+    this.setState({inlineSkin: null})
+    return true
   }
 
   handleEmojiSelect(emoji) {
@@ -321,10 +336,13 @@ export default class NimblePicker extends React.PureComponent {
     }
   }
 
-  handleScroll() {
+  handleScroll(resetInline=true) {
     if (!this.waitingForPaint) {
       this.waitingForPaint = true
       requestAnimationFrame(this.handleScrollPaint)
+    }
+    if (resetInline) {
+      this.setState({inlineSkin: null})
     }
   }
 
@@ -387,8 +405,10 @@ export default class NimblePicker extends React.PureComponent {
   }
 
   handleResize() {
-    this.updateCategoriesSize()
-    this.handleScroll()
+    if (!this.props.fixedWidth) {
+      this.updateCategoriesSize()
+      this.handleScroll()
+    }
   }
 
   handleSearch(emojis) {
@@ -552,11 +572,29 @@ export default class NimblePicker extends React.PureComponent {
 
     var width = fixedWidth ? perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar() : '100%'
     var theme = this.getPreferredTheme()
+    var inlineSkin = this.state.inlineSkin
     var skin =
       this.props.skin ||
       this.state.skin ||
       store.get('skin') ||
       this.props.defaultSkin
+
+    let emojiProps = {
+      native: native,
+      skin: skin,
+      size: emojiSize,
+      set: set,
+      sheetSize: sheetSize,
+      sheetColumns: sheetColumns,
+      sheetRows: sheetRows,
+      forceSize: native,
+      tooltip: emojiTooltip,
+      backgroundImageFn: backgroundImageFn,
+      useButton: useButton,
+      onOver: this.handleEmojiOver,
+      onLeave: this.handleEmojiLeave,
+      onClick: this.handleEmojiClick,
+    }
 
     return (
       <section
@@ -565,6 +603,14 @@ export default class NimblePicker extends React.PureComponent {
         aria-label={title}
         onKeyDown={this.handleKeyDown}
       >
+        {inlineSkin && (
+          <span
+            style={{ left: inlineSkin.left, right: inlineSkin.right, top: inlineSkin.top }}
+            className="emoji-mart-category emoji-mart-inline-skin">
+            {[1,2,3,4,5,6].map(i => <Emoji key={i} emoji={inlineSkin.emoji.id} {...emojiProps} skin={i}/>)}
+          </span>
+        )}
+
         <div className="emoji-mart-bar">
           <Anchors
             ref={this.setAnchorsRef}
@@ -615,22 +661,7 @@ export default class NimblePicker extends React.PureComponent {
                     ? this.CUSTOM
                     : undefined
                 }
-                emojiProps={{
-                  native: native,
-                  skin: skin,
-                  size: emojiSize,
-                  set: set,
-                  sheetSize: sheetSize,
-                  sheetColumns: sheetColumns,
-                  sheetRows: sheetRows,
-                  forceSize: native,
-                  tooltip: emojiTooltip,
-                  backgroundImageFn: backgroundImageFn,
-                  useButton: useButton,
-                  onOver: this.handleEmojiOver,
-                  onLeave: this.handleEmojiLeave,
-                  onClick: this.handleEmojiClick,
-                }}
+                emojiProps={emojiProps}
                 notFound={notFound}
                 notFoundEmoji={notFoundEmoji}
               />
