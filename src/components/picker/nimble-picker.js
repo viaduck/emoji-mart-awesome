@@ -299,8 +299,11 @@ export default class NimblePicker extends React.PureComponent {
   handleInlineSkinPicker(emoji, e) {
     if (emoji.skin != null && (!this.state.inlineSkin || this.state.inlineSkin.emoji.id !== emoji.id)) {
       var parent = e.target.childElementCount ? e.target : e.target.offsetParent, rect = parent.getBoundingClientRect(),
-        top = rect.top - parent.clientHeight, left = rect.left + (parent.clientWidth / 2),
-        right = this.scroll.offsetWidth - rect.right + parent.clientWidth, leftSide = left < this.scroll.clientWidth / 2
+        rootRect = this.scroll.offsetParent.getBoundingClientRect(),
+        top = rect.top - rootRect.top - parent.clientHeight,
+        left = (rect.left - rootRect.left) + (parent.clientWidth / 2),
+        right = this.scroll.offsetWidth - (rect.right - rootRect.left) + parent.clientWidth,
+        leftSide = left < this.scroll.clientWidth / 2
 
       this.setState({inlineSkin: {emoji, left: leftSide && left, right: !leftSide && right, top}})
       return false
