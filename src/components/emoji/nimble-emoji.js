@@ -181,6 +181,7 @@ const NimbleEmoji = (props) => {
 
   var Tag = {
     name: 'span',
+    closed: false,
     props: {},
   }
 
@@ -191,11 +192,28 @@ const NimbleEmoji = (props) => {
     }
   }
 
+  if (props.img && !props.native) {
+    Tag.name = 'img'
+    Tag.closed = true
+    Tag.props = {
+      // remove url(...)
+      src: style.backgroundImage.slice(4, -1),
+      alt: nativeEmoji,
+    }
+    Tag.props.style = style = {
+      height: style.height,
+      width: style.width,
+      display: 'inline',
+      objectFit: 'none',
+      objectPosition: style.backgroundPosition,
+      verticalAlign: 'middle'
+    }
+  }
+
   if (props.html) {
     style = _convertStyleToCSS(style)
-    return `<${Tag.name} style='${style}' aria-label='${label}' ${
-      title ? `title='${title}'` : ''
-    } class='${className}'>${children || ''}</${Tag.name}>`
+    return `<${Tag.name} style='${style}' aria-label='${label}' ${title ? `title='${title}'` : ''}
+      class='${className}' src='${Tag.props.src}' alt='${Tag.props.alt}'>${children || ''}</${Tag.name}>`
   } else {
     return (
       <Tag.name
@@ -211,7 +229,7 @@ const NimbleEmoji = (props) => {
         className={className}
         {...Tag.props}
       >
-        <span style={style}>{children}</span>
+        {Tag.closed ? null : <span style={style}>{children}</span>}
       </Tag.name>
     )
   }
