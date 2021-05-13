@@ -193,27 +193,25 @@ const NimbleEmoji = (props) => {
   }
 
   if (props.img && !props.native) {
-    Tag.name = 'img'
     Tag.closed = true
+    Tag.name = 'img'
     Tag.props = {
-      // remove url(...)
-      src: style.backgroundImage.slice(4, -1),
       alt: nativeEmoji,
-    }
-    Tag.props.style = style = {
-      height: style.height,
-      width: style.width,
-      display: 'inline',
-      objectFit: 'none',
-      objectPosition: style.backgroundPosition,
-      verticalAlign: 'middle'
+      // transparent 1x1 gif to fulfill src requirement
+      src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+      style: Object.assign(style, {
+        display: 'inline',
+        verticalAlign: 'middle'
+      })
     }
   }
 
   if (props.html) {
     style = _convertStyleToCSS(style)
     return `<${Tag.name} style='${style}' aria-label='${label}' ${title ? `title='${title}'` : ''}
-      class='${className}' src='${Tag.props.src}' alt='${Tag.props.alt}'>${children || ''}</${Tag.name}>`
+            ${Tag.props.src ? `src='${Tag.props.src}'` : ''}
+            ${Tag.props.alt ? `alt='${Tag.props.alt}'` : ''}
+            class='${className}'>${children || ''}</${Tag.name}>`
   } else {
     return (
       <Tag.name
