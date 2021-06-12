@@ -200,8 +200,14 @@ const NimbleEmoji = (props) => {
       // transparent 1x1 gif to fulfill src requirement
       src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
       style: Object.assign(style, {
+        position: 'static',
         display: 'inline',
-        verticalAlign: 'middle'
+        verticalAlign: 'top',
+        userSelect: 'text',
+        MozUserDrag: 'none',
+        WebkitUserDrag: 'none',
+        msUserDrag: 'none',
+        userDrag: 'none',
       })
     }
   }
