@@ -195,6 +195,7 @@ export default class NimblePicker extends React.PureComponent {
     this.setPreviewRef = this.setPreviewRef.bind(this)
     this.handleSkinChange = this.handleSkinChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.handleParentClick = this.handleParentClick.bind(this)
     this.handleDarkMatchMediaChange = this.handleDarkMatchMediaChange.bind(this)
   }
 
@@ -297,7 +298,7 @@ export default class NimblePicker extends React.PureComponent {
   }
 
   handleInlineSkinPicker(emoji, e) {
-    if (emoji.skin != null && (!this.state.inlineSkin || this.state.inlineSkin.emoji.id !== emoji.id)) {
+    if (emoji && emoji.skin != null && (!this.state.inlineSkin || this.state.inlineSkin.emoji.id !== emoji.id)) {
       var parent = e.target.childElementCount ? e.target : e.target.offsetParent, rect = parent.getBoundingClientRect(),
         rootRect = this.scroll.offsetParent.getBoundingClientRect(),
         top = rect.top - rootRect.top - parent.clientHeight,
@@ -305,7 +306,7 @@ export default class NimblePicker extends React.PureComponent {
         right = this.scroll.offsetWidth - (rect.right - rootRect.left) + parent.clientWidth,
         leftSide = left < this.scroll.clientWidth / 2
 
-      this.setState({inlineSkin: {emoji, left: leftSide && left, right: !leftSide && right, top}})
+      this.setState({inlineSkin: {emoji, left: leftSide && left, right: !leftSide && right, top, timeStamp: e.timeStamp}})
       return false
     }
 
@@ -501,6 +502,12 @@ export default class NimblePicker extends React.PureComponent {
     }
   }
 
+  handleParentClick(e) {
+    let inlineSkin = this.state.inlineSkin
+    if (inlineSkin && e.timeStamp !== inlineSkin.timeStamp)
+      this.handleInlineSkinPicker()
+  }
+
   updateCategoriesSize() {
     for (let i = 0, l = this.categories.length; i < l; i++) {
       let component = this.categoryRefs[`category-${i}`]
@@ -576,6 +583,7 @@ export default class NimblePicker extends React.PureComponent {
     var width = fixedWidth ? perLine * (emojiSize + 12) + 12 + 2 + measureScrollbar() : '100%'
     var theme = this.getPreferredTheme()
     var inlineSkin = this.state.inlineSkin
+    var disabled = inlineSkin ? "emoji-mart-disabled" : ""
     var skin =
       this.props.skin ||
       this.state.skin ||
@@ -602,9 +610,10 @@ export default class NimblePicker extends React.PureComponent {
     return (
       <section
         style={{ width: width, ...style }}
-        className={`emoji-mart emoji-mart-${theme}`}
+        className={`emoji-mart emoji-mart-${theme} ${disabled}`}
         aria-label={title}
         onKeyDown={this.handleKeyDown}
+        onMouseDown={this.handleParentClick}
       >
         {inlineSkin && (
           <span

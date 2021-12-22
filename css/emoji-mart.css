@@ -133,8 +133,9 @@
 .emoji-mart-inline-skin {
   position: absolute;
   white-space: nowrap;
-  background: rgba(0, 0, 0, 0.6);
   z-index: 1;
+  background-color: inherit;
+  box-shadow: 0 0 3px lightgrey;
 }
 
 .emoji-mart-category .emoji-mart-emoji span {
@@ -422,6 +423,18 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+/*
+ * Disabled due to skin picker
+ */
+.emoji-mart-disabled .emoji-mart-bar {
+  pointer-events: none;
+}
+.emoji-mart-disabled .emoji-mart-scroll {
+  filter: contrast(0.5) blur(1px);
+  transition: filter 0.2s ease;
+  pointer-events: none;
 }
 
 /*
