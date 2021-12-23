@@ -1,15 +1,21 @@
 <div align="center">
   <br><b>Emoji Mart</b> is a Slack-like customizable<br>emoji picker component for React
-  <br><a href="https://missive.github.io/emoji-mart">Demo</a> • <a href="https://github.com/missive/emoji-mart/blob/master/CHANGELOG.md">Changelog</a>
-  <br><br><a href="https://travis-ci.org/missive/emoji-mart"><img src="https://travis-ci.org/missive/emoji-mart.svg?branch=master" alt="Build Status"></a>
-  <br><br><img width="420" alt="picker" src="https://user-images.githubusercontent.com/436043/71363432-1b69d000-2567-11ea-9416-88446025e03c.png">
-  <br><br><a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com"><img width="30" alt="Missive | Team email, team chat, team tasks, one app" src="https://user-images.githubusercontent.com/436043/32532559-0d15ddfc-c400-11e7-8a24-64d0157d0cb0.png"></a>
-  <br>Brought to you by the <a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com">Missive</a> team
+  <br><br><img width="560" alt="picker" src="https://user-images.githubusercontent.com/12189489/147028644-d5e54e65-6e88-4e88-b87b-47e9c4104a35.png">
 </div>
 
 ## Installation
 
-`npm install --save emoji-mart`
+`npm install --save emoji-mart-awesome`
+
+## Changes Compared to Upstream `emoji-mart`
+
+* Allow variable (dynamic) width of `Picker` component with new `fixedWith` prop. This renders the emojis in a grid with automatic wrapping and equal spacing
+* Added inline skin picker to `Picker` when picking emojis that support skin tones with the new `inlineSkinPicker` prop
+* Allow native Unicode codepoints to be used as `emoji` prop for the `Emoji` component. This also displays skin tones and variations
+* Add option to use inline images instead of spans for the `Emoji` component with new `img` prop. Using inline images fixes focus and cursor issues on mobile and allows inserting inline `Emojis` into text elements such as paragraphs and contentEditable divs.
+* Changed `Emoji` to reject focus on click. This fixes soft input closing on mobile when selecting an emoji
+* Moved the search input of `Picker` into the scroll container, which is scrolled below the search bar on mount. Scroll up to search
+* Removed the `Frequently Used` category label in `Picker` for simplicity
 
 ## Components
 ### Picker
@@ -26,6 +32,8 @@ import { Picker } from 'emoji-mart'
 
 | Prop | Required | Default | Description |
 | ---- | :------: | ------- | ----------- |
+| **fixedWidth** | | `true` | Fixed width or dynamic width component |
+| **inlineSkinPicker** | | `false` | Enables inline skin picking for supported emojis |
 | **autoFocus** | | `false` | Auto focus the search input when mounted |
 | **color** | | `#ae65c5` | The top bar anchors select and hover color |
 | **emoji** | | `department_store` | The emoji shown when no emojis are hovered, set to an empty string to show nothing |
@@ -170,9 +178,10 @@ import { Emoji } from 'emoji-mart'
 
 | Prop | Required | Default | Description |
 | ---- | :------: | ------- | ----------- |
-| **emoji** | ✓ | | Either a string or an `emoji` object |
+| **emoji** | ✓ | | Either a string, a string with native unicode codepoints or an `emoji` object |
 | **size** | ✓ | | The emoji width and height. |
 | **native** | | `false` | Renders the native unicode emoji |
+| **img** | | `false` | Renders the emoji as a inline image (if true) or a span (if false) |
 | **onClick** | | | Params: `(emoji, event) => {}` |
 | **onLeave** | | | Params: `(emoji, event) => {}` |
 | **onOver** | | | Params: `(emoji, event) => {}` |
