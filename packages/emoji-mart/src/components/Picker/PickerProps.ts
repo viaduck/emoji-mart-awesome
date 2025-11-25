@@ -9,7 +9,7 @@ export default {
     value: null,
   },
   emojiButtonRadius: {
-    value: '100%',
+    value: '35%',
   },
   emojiButtonSize: {
     value: 36,
