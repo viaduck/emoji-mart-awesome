@@ -19,5 +19,8 @@ export default {
 
   // Shared
   set: PickerProps.set,
-  skin: PickerProps.skin,
+  skin: {
+    value: null,
+    choices: PickerProps.skin.choices,
+  },
 }

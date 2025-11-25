@@ -19,6 +19,10 @@ export default function Emoji(props) {
   emoji || (emoji = SearchIndex.get(id || props.native))
   if (!emoji) return props.fallback
 
+  if (props.native && !props.skin) {
+    skin = emoji.skins.findIndex(es => es.native == props.native) + 1
+  }
+
   const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
 
   const imageSrc =
