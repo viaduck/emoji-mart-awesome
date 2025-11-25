@@ -155,6 +155,11 @@ a {
   overflow-x: hidden;
   padding-right: 0;
 
+  &.disabled {
+    transition: filter 0.2s ease;
+    filter: contrast(0.5) blur(2px);
+  }
+
   &::-webkit-scrollbar {
     width: var(--sidebar-width);
     height: var(--sidebar-width);
@@ -402,6 +407,14 @@ button {
 
     &[aria-selected] .background { opacity: 1 }
     &[data-keyboard] .background { transition: none }
+  }
+
+  &.inline-skin {
+    position: absolute;
+    white-space: nowrap;
+    z-index: 5;
+    background-color: inherit;
+    box-shadow: 0 0 3px 1px rgb(var(--em-rgb-accent));
   }
 }
 

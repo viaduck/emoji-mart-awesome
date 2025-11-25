@@ -613,33 +613,60 @@ export default class Picker extends Component {
   }
 
   handleEmojiOver(pos) {
-    if (this.mouseIsIgnored || this.state.showSkins) return
+    if (this.mouseIsIgnored || (this.state.showSkins && pos?.[0] != -1)) return
     this.setState({ pos: pos || [-1, -1], keyboard: false })
   }
 
-  handleEmojiClick({ e, emoji, pos }) {
+  handleEmojiClick({ e, emoji, pos, skin }) {
     if (!this.props.onEmojiSelect) return
 
     if (!emoji && pos) {
       emoji = this.getEmojiByPos(pos)
+      skin = FrequentlyUsed.getSkin(emoji?.id) || this.state.tempSkin || this.state.skin
     }
 
     if (emoji) {
-      const emojiData = getEmojiData(emoji, { skinIndex: this.state.skin - 1 })
+      const emojiData = getEmojiData(emoji, { skinIndex: skin - 1 })
 
       if (this.props.maxFrequentRows) {
         FrequentlyUsed.add(emojiData, this.props)
       }
 
       this.props.onEmojiSelect(emojiData, e)
+      this.closeSkins()
+    }
+  }
+
+  handleEmojiRightClick({ e, emoji, pos }) {
+    if (this.state.showSkins || !this.props.onEmojiSelect) return
+
+    if (!emoji && pos) {
+      emoji = this.getEmojiByPos(pos)
+    }
+
+    if (emoji) {
+      const parent = e.target.childElementCount ? e.target : e.target.offsetParent
+      const scroll = this.refs.scroll.current
+      const rect = parent.getBoundingClientRect()
+      const rootRect = scroll.offsetParent.getBoundingClientRect()
+
+      const top = rect.top - rootRect.top - parent.clientHeight
+      const left = (rect.left - rootRect.left) + (parent.clientWidth / 2)
+      const right = scroll.offsetWidth - (rect.right - rootRect.left) + parent.clientWidth
+      const leftSide = left < scroll.clientWidth / 2
+
+      this.setState({
+        showSkins: 'inline',
+        inlineSkin: { emoji, top, left: leftSide && left, right: !leftSide && right }
+      }, async () => {
+        this.base.addEventListener('click', this.handleBaseClick, true)
+        this.base.addEventListener('keydown', this.handleBaseKeydown, true)
+      })
     }
   }
 
   openSkins = (e) => {
-    const { currentTarget } = e
-    const rect = currentTarget.getBoundingClientRect()
-
-    this.setState({ showSkins: rect }, async () => {
+    this.setState({ showSkins: 'menu' }, async () => {
       // Firefox requires 2 frames for the transition to consistenly work
       await sleep(2)
 
@@ -656,7 +683,7 @@ export default class Picker extends Component {
 
   closeSkins() {
     if (!this.state.showSkins) return
-    this.setState({ showSkins: null, tempSkin: null })
+    this.setState({ showSkins: null, inlineSkin: null, tempSkin: null, pos: [-1, -1] })
 
     this.base.removeEventListener('click', this.handleBaseClick)
     this.base.removeEventListener('keydown', this.handleBaseKeydown)
@@ -750,11 +777,12 @@ export default class Picker extends Component {
     )
   }
 
-  renderEmojiButton(emoji, { pos, posinset, grid }) {
+  renderEmojiButton(emoji, { pos, posinset, grid, forceSkin }) {
     const size = this.props.emojiButtonSize
-    const skin = this.state.tempSkin || this.state.skin
+    const lastSkin = FrequentlyUsed.getSkin(emoji.id)
+    const skin = forceSkin || lastSkin || this.state.tempSkin || this.state.skin
     const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
-    const skinnable = emoji.skins.length > 1
+    const skinnable = !forceSkin && emoji.skins.length > 1
     const native = emojiSkin.native
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
@@ -771,7 +799,11 @@ export default class Picker extends Component {
           type="button"
           class={`flex flex-center flex-middle ${skinnable ? 'skinnable' : ''}`}
           tabindex="-1"
-          onClick={(e) => this.handleEmojiClick({ e, emoji })}
+          onClick={(e) => this.handleEmojiClick({ e, emoji, skin })}
+          onContextMenu={(e) => {
+            e.preventDefault()
+            skinnable && this.handleEmojiRightClick({ e, emoji, pos })
+          }}
           onMouseEnter={() => this.handleEmojiOver(pos)}
           onMouseLeave={() => this.handleEmojiOver()}
           style={{
@@ -1092,8 +1124,30 @@ export default class Picker extends Component {
     )
   }
 
+  renderInlineSkinPicker() {
+    const inlineSkin = this.state.inlineSkin
+
+    return (
+      <span className="category menu inline-skin flex" style={{
+        top: inlineSkin.top,
+        left: inlineSkin.left,
+        right: inlineSkin.right
+      }}>
+        {[1, 2, 3, 4, 5, 6].map((skin, ii) =>
+          this.renderEmojiButton(inlineSkin.emoji, {
+            pos: [-1, ii],
+            posinset: ii + 1,
+            grid: this.grid,
+            forceSkin: skin,
+          })
+        )}
+      </span>
+    )
+  }
+
   render() {
     const lineWidth = this.props.perLine * this.props.emojiButtonSize
+    const disabled = this.state.inlineSkin ? 'disabled' : undefined
 
     return (
       <section
@@ -1109,13 +1163,14 @@ export default class Picker extends Component {
         data-theme={this.state.theme}
         data-menu={this.state.showSkins ? '' : undefined}
       >
+        {this.state.inlineSkin && this.renderInlineSkinPicker()}
         {this.props.previewPosition == 'top' && this.renderPreview()}
         {this.props.navPosition == 'top' && this.renderNav()}
         {this.props.searchPosition == 'sticky' && (
           <div class="padding-lr">{this.renderSearch()}</div>
         )}
 
-        <div ref={this.refs.scroll} class="scroll flex-grow padding-lr">
+        <div ref={this.refs.scroll} class={`scroll flex-grow padding-lr ${disabled}`}>
           <div
             style={{
               width: this.props.dynamicWidth ? '100%' : lineWidth,
@@ -1130,7 +1185,7 @@ export default class Picker extends Component {
 
         {this.props.navPosition == 'bottom' && this.renderNav()}
         {this.props.previewPosition == 'bottom' && this.renderPreview()}
-        {this.state.showSkins && this.renderSkins()}
+        {this.state.showSkins === 'menu' && this.renderSkins()}
         {this.renderLiveRegion()}
       </section>
     )
