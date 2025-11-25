@@ -11,7 +11,8 @@ export default function EmojiPicker(props) {
   }
 
   useEffect(() => {
-    instance.current = new Picker({ ...props, ref })
+    const PickerConstructor = window?.customElements.get('em-emoji-picker') ?? Picker
+    instance.current = new PickerConstructor({ ...props, ref })
 
     return () => {
       instance.current = null
