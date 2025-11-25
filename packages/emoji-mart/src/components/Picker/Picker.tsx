@@ -72,6 +72,8 @@ export default class Picker extends Component {
         searchInput.current.focus()
       }
     }
+
+    this.scrollTo({ categoryId: 'frequent' })
   }
 
   componentWillReceiveProps(nextProps) {

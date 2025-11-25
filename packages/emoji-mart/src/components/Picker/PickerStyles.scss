@@ -195,8 +195,6 @@ a {
   z-index: 1;
   top: -1px;
   font-weight: 500;
-  background-color: rgba(var(--em-rgb-background), .9);
-  backdrop-filter: blur(4px);
 }
 
 .skinnable {
@@ -369,6 +367,15 @@ button {
 }
 
 .category {
+  &[data-id="frequent"] > .sticky {
+    display: none;
+  }
+
+  & > .sticky {
+    border-radius: var(--border-radius);
+    background-color: color-mix(in srgb, rgb(var(--em-rgb-background)) 80%, black 20%);
+  }
+
   &:last-child {
     min-height: calc(100% + 1px);
   }
