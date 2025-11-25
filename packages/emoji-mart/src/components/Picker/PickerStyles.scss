@@ -3,10 +3,11 @@
   width: min-content;
   height: 435px;
   min-height: 230px;
-  border-radius: var(--border-radius);
+  border-radius: var(--main-border-radius);
   box-shadow: var(--shadow);
 
-  --border-radius: 10px;
+  --main-border-radius: 10px;
+  --border-radius: var(--main-border-radius);
   --category-icon-size: 18px;
   --font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
   --font-size: 15px;
@@ -64,7 +65,7 @@
   position: relative;
   width: 100%;
   text-align: left;
-  border-radius: var(--border-radius);
+  border-radius: var(--main-border-radius);
   background-color: rgb(var(--em-rgb-background));
 
   &[data-menu] {
