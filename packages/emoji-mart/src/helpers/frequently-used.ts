@@ -20,9 +20,11 @@ const DEFAULTS = [
 ]
 
 let Index: any | null = null
+let Skins: any | null = null
 
-function add(emoji: { id: string }) {
+function add(emoji: { id: string, skin?: number }) {
   Index || (Index = Store.get('frequently') || {})
+  Skins || (Skins = Store.get('skins') || {})
 
   const emojiId = emoji.id || emoji
   if (!emojiId) return
@@ -30,14 +32,18 @@ function add(emoji: { id: string }) {
   Index[emojiId] || (Index[emojiId] = 0)
   Index[emojiId] += 1
 
+  emoji.skin && (Skins[emojiId] = emoji.skin)
+
   Store.set('last', emojiId)
   Store.set('frequently', Index)
+  Store.set('skins', Skins)
 }
 
 function get({ maxFrequentRows, perLine }) {
   if (!maxFrequentRows) return []
 
   Index || (Index = Store.get('frequently'))
+  Skins || (Skins = Store.get('skins') || {})
   let emojiIds = []
 
   if (!Index) {
@@ -78,17 +84,24 @@ function get({ maxFrequentRows, perLine }) {
     for (let removedId of removedIds) {
       if (removedId == last) continue
       delete Index[removedId]
+      delete Skins[removedId]
     }
 
     if (last && emojiIds.indexOf(last) == -1) {
       delete Index[emojiIds[emojiIds.length - 1]]
+      delete Skins[emojiIds[emojiIds.length - 1]]
       emojiIds.splice(-1, 1, last)
     }
 
     Store.set('frequently', Index)
+    Store.set('skins', Skins)
   }
 
   return emojiIds
 }
 
-export default { add, get, DEFAULTS }
+function getSkin(emojiId): number | undefined {
+  return Skins[emojiId]
+}
+
+export default { add, get, getSkin, DEFAULTS }
