@@ -1,5 +1,5 @@
 {
-  "name": "@emoji-mart/monorepo",
+  "name": "@emoji-mart-awesome/monorepo",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -7,9 +7,9 @@
   ],
   "scripts": {
     "dev": "yarn workspace @emoji-mart/website dev",
-    "build": "yarn workspace emoji-mart build",
+    "build": "yarn workspace emoji-mart-awesome build",
     "build:data": "yarn workspace @emoji-mart/data build",
-    "build:react": "yarn workspace @emoji-mart/react build",
+    "build:react": "yarn workspace @emoji-mart-awesome/react build",
     "build:website": "yarn workspace @emoji-mart/website build",
     "check:types": "tsc",
     "prettier": "prettier --check .",
