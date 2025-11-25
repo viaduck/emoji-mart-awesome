@@ -752,6 +752,7 @@ export default class Picker extends Component {
     const size = this.props.emojiButtonSize
     const skin = this.state.tempSkin || this.state.skin
     const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
+    const skinnable = emoji.skins.length > 1
     const native = emojiSkin.native
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
@@ -766,7 +767,7 @@ export default class Picker extends Component {
           data-keyboard={this.state.keyboard}
           title={this.props.previewPosition == 'none' ? emoji.name : undefined}
           type="button"
-          class="flex flex-center flex-middle"
+          class={`flex flex-center flex-middle ${skinnable ? 'skinnable' : ''}`}
           tabindex="-1"
           onClick={(e) => this.handleEmojiClick({ e, emoji })}
           onMouseEnter={() => this.handleEmojiOver(pos)}
