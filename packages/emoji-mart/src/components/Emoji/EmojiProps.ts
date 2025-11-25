@@ -17,6 +17,12 @@ export default {
     },
   },
 
+  // rendering
+  spritesheet: {
+    value: false,
+  },
+  getSpritesheetURL: PickerProps.getSpritesheetURL,
+
   // Shared
   set: PickerProps.set,
   skin: {

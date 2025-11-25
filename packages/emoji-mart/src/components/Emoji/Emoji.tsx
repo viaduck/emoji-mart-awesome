@@ -1,6 +1,8 @@
 import { Data } from '../../config'
 import { SearchIndex } from '../../helpers'
 
+const TRANSPARENT_GIF = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
 export default function Emoji(props) {
   let { id, skin, emoji } = props
 
@@ -39,18 +41,8 @@ export default function Emoji(props) {
       : `https://cdn.jsdelivr.net/npm/emoji-datasource-${props.set}@15.0.1/img/${props.set}/sheets-256/64.png`
 
   return (
-    <span class="emoji-mart-emoji" data-emoji-set={props.set}>
-      {imageSrc ? (
-        <img
-          style={{
-            maxWidth: props.size || '1em',
-            maxHeight: props.size || '1em',
-            display: 'inline-block',
-          }}
-          alt={emojiSkin.native || emojiSkin.shortcodes}
-          src={imageSrc}
-        />
-      ) : props.set == 'native' ? (
+    <>
+      {props.set == 'native' ? (
         <span
           style={{
             fontSize: props.size,
@@ -61,11 +53,17 @@ export default function Emoji(props) {
           {emojiSkin.native}
         </span>
       ) : (
-        <span
+        <img
           style={{
-            display: 'block',
-            width: props.size,
-            height: props.size,
+            display: 'inline',
+            position: 'static',
+            verticalAlign: 'top',
+
+            maxWidth: props.size || '1em',
+            maxHeight: props.size || '1em',
+            width: spritesheetSrc ? props.size : undefined,
+            height: spritesheetSrc ? props.size : undefined,
+
             backgroundImage: `url(${spritesheetSrc})`,
             backgroundSize: `${100 * Data.sheet.cols}% ${
               100 * Data.sheet.rows
@@ -73,9 +71,17 @@ export default function Emoji(props) {
             backgroundPosition: `${
               (100 / (Data.sheet.cols - 1)) * emojiSkin.x
             }% ${(100 / (Data.sheet.rows - 1)) * emojiSkin.y}%`,
+
+            userSelect: 'text',
+            MozUserDrag: 'none',
+            WebkitUserDrag: 'none',
+            msUserDrag: 'none',
+            userDrag: 'none',
           }}
-        ></span>
+          alt={emojiSkin.native || emojiSkin.shortcodes}
+          src={imageSrc || TRANSPARENT_GIF}
+        />
       )}
-    </span>
+    </>
   )
 }
