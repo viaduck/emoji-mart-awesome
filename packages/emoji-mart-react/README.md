@@ -1,15 +1,19 @@
-# `@emoji-mart/react`
+# `@emoji-mart-awesome/react`
 
-A React wrapper for [EmojiMart](https://missiveapp.com/open/emoji-mart).
+A React wrapper for [EmojiMartAwesome](https://github.com/viaduck/emoji-mart-awesome).
+
+## ✍️ Changes compared to the upstream `@emoji-mart/react`
+- Added React 19 support
+- Added Emoji component for react usage
 
 ## 🧑‍💻 Usage
 ```sh
-npm install --save emoji-mart @emoji-mart/data @emoji-mart/react
+npm install --save emoji-mart-awesome @emoji-mart/data @emoji-mart-awesome/react
 ```
 
 ```js
 import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import Picker from '@emoji-mart-awesome/react'
 
 function App() {
   return (

@@ -1,10 +1,21 @@
 <div align="center">
-  <br><b>Emoji Mart</b> is a customizable<br>emoji picker HTML component for the web
-  <br><a href="https://missiveapp.com/open/emoji-mart">Demo</a>
-  <br><br><a href="https://missiveapp.com/open/emoji-mart"><img width="639" alt="EmojiMart" src="https://user-images.githubusercontent.com/436043/163686169-766ef715-89b5-4ada-88d7-672623713bc0.png"></a>
-  <br><br><a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com"><img width="34" alt="Missive | Team email, team chat, team tasks, one app" src="https://user-images.githubusercontent.com/436043/163655413-df22f8cc-99a7-4d8d-a5c1-105c435910d7.png"></a>
-  <br>Brought to you by the <a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com">Missive</a> team
+  <br><b>Emoji Mart Awesome</b> is the fork of a customizable<br>emoji picker HTML component for the web
+  <br><br><img width="640" alt="Picker" src="https://github.com/user-attachments/assets/e8985706-1f2a-4025-b6ca-d855875011c1" />
 </div>
+
+## ✍️ Changes compared to the upstream `emoji-mart`
+- Added support for React 19 and bugfixes
+- Added an inline skin picker to `Picker`, with small triangle indicators on emojis that support skin tones.
+The skin picker is only opened on right click or long press on mobile.
+- Allow emojis in the `Picker` to have different skin tones. Every emoji will show as the last skin tone selected
+by the user
+- Switch to use inline images instead of spans for the `Emoji` component.
+Using inline images fixes focus and cursor issues on mobile and allows inserting inline `Emojis` into text elements such
+as paragraphs and contentEditable divs.
+- Changed `Emoji` to reject focus on click. This fixes soft input closing on mobile when selecting an emoji
+- Added spritesheet support to individual emojis, not just the `Picker`
+- Moved the starting position of the `Picker` below the search input, scroll up to search
+- Removed the `Frequently Used` category label in the `Picker` for simplicity
 
 ## 📖 Table of Contents
 - [💾 Data](#-data)
@@ -31,9 +42,33 @@ yarn add @emoji-mart/data
 
 ```js
 import data from '@emoji-mart/data'
-import { Picker } from 'emoji-mart'
+import { Picker } from 'emoji-mart-awesome'
 
 new Picker({ data })
+```
+
+To use the newest emoji version, enable all sets and only allow bundled spritesheets:
+
+```js
+import data from '@emoji-mart/data/sets/15/all.json';
+import Apple64 from 'emoji-datasource-apple/img/apple/sheets-256/64.png';
+import Google64 from 'emoji-datasource-google/img/google/sheets-256/64.png';
+import Twitter64 from 'emoji-datasource-twitter/img/twitter/sheets-256/64.png';
+import Facebook64 from 'emoji-datasource-facebook/img/facebook/sheets-256/64.png';
+
+init({ data }).then();
+
+const getSpritesheetURL = (set: 'apple' | 'facebook' | 'google' | 'twitter') => {
+  switch (set) {
+    case 'apple': return Apple64;
+    case 'facebook': return Facebook64;
+    case 'google': return Google64;
+    case 'twitter': return Twitter64;
+  }
+};
+
+// example usage
+new Emoji({ set: 'apple', size: 20, spritesheet: true, getSpritesheetURL })
 ```
 
 ### Fetched remotely
@@ -41,7 +76,8 @@ new Picker({ data })
 - **Cons:** Network latency, doesn’t work offline (unless you configure a ServiceWorker)
 
 ```js
-import { Picker } from 'emoji-mart'
+import { Picker } from 'emoji-mart-awesome'
+
 new Picker({
   data: async () => {
     const response = await fetch(
@@ -58,12 +94,12 @@ In this example data is fetched from a content delivery network, but it could al
 ## 🏪 Picker
 ### React
 ```sh
-npm install --save emoji-mart @emoji-mart/data @emoji-mart/react
+npm install --save emoji-mart-awesome @emoji-mart/data @emoji-mart-awesome/react
 ```
 
 ```js
 import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import Picker from '@emoji-mart-awesome/react'
 
 function App() {
   return (
@@ -123,7 +159,7 @@ You can use custom emojis by providing an array of categories and their emojis. 
 
 ```js
 import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import Picker from '@emoji-mart-awesome/react'
 
 const custom = [
   {
@@ -191,7 +227,7 @@ First, you need to make sure data has been initialized. You need to call this on
 
 ```js
 import data from '@emoji-mart/data'
-import { init } from 'emoji-mart'
+import { init } from 'emoji-mart-awesome'
 
 init({ data })
 ```
@@ -215,13 +251,16 @@ Then you can use the emoji component in your HTML / JSX.
 | **fallback** | `:shrug:` | A string to be rendered in case the emoji can’t be found |
 | **set** | `native` | The emoji set: `native`, `apple`, `facebook`, `google`, `twitter` |
 | **skin** | `1` | The emoji skin tone: `1`, `2`, `3`, `4`, `5`, `6` |
+| **skin** | `1` | The emoji skin tone: `1`, `2`, `3`, `4`, `5`, `6`. Defaults to null, which tries to infer the skin from native or shortcode and falls back to skin 1. |
+| **spritesheet** | `false` | True if the emoji should be rendered from a spritesheet, instead of rendering an individual image for every emoji. |
+| **getSpritesheetURL** | `null`  | A function that returns the URL of the spritesheet to use for the emoji. It should be compatible with the data provided. |
 
 ## 🕵️‍♀️ Headless search
 You can search without the Picker. Just like the emoji component, `data` needs to be initialized first in order to use the search index.
 
 ```js
 import data from '@emoji-mart/data'
-import { init, SearchIndex } from 'emoji-mart'
+import { init, SearchIndex } from 'emoji-mart-awesome'
 
 init({ data })
 
@@ -242,7 +281,7 @@ You can get emoji data from a native emoji. This is useful if you want to get th
 
 ```js
 import data from '@emoji-mart/data'
-import { init, getEmojiDataFromNative } from 'emoji-mart'
+import { init, getEmojiDataFromNative } from 'emoji-mart-awesome'
 
 init({ data })
 
